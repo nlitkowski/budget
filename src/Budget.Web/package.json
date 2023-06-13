@@ -17,6 +17,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "docker": "docker build . -t budget",
+    "serve": "docker run -p 3000:3000 -d budget",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
