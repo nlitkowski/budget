@@ -3,6 +3,8 @@ using Budget.API.Core.Extensions;
 using Budget.API.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using NLog.Web;
 
 namespace Budget.API.Core
 {
@@ -10,6 +12,9 @@ namespace Budget.API.Core
 	{
 		public static int Main(string[] args)
 		{
+			var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+			logger.Debug("Initialize application");
+
 			var configuration = GetConfiguration();
 
 			var app = CreateApplication(configuration, args);
@@ -21,9 +26,6 @@ namespace Budget.API.Core
 			}
 
 			app.UseHttpsRedirection();
-
-			app.UseAuthentication();
-			app.UseAuthorization();
 			
 			app.MapControllers();
 
@@ -32,20 +34,24 @@ namespace Budget.API.Core
 				app.Run();
 				return 0;
 			}
-			catch // (Exception ex)
+			catch (Exception ex)
 			{
-				// Log exception
+				logger.Error(ex, "Program stopped because of exception");
 				return 1;
 			}
 			finally
 			{
-				// flush logs
+				LogManager.Shutdown();
 			}
 		}
 
 		private static WebApplication CreateApplication(IConfiguration configuration, string[] args)
 		{
 			var builder = WebApplication.CreateBuilder(args);
+
+			builder.Logging.ClearProviders();
+			builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+			builder.Host.UseNLog();
 
 			builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 

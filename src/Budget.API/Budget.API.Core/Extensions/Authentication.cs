@@ -8,7 +8,8 @@ namespace Budget.API.Core.Extensions
 	{
 		public static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
 		{
-			services.AddAuthentication(opt => {
+			services.AddAuthorization()
+				.AddAuthentication(opt => {
 				opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 				opt.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
