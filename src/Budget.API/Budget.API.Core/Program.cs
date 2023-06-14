@@ -1,6 +1,7 @@
 using Autofac.Extensions.DependencyInjection;
 using Budget.API.Core.Extensions;
 using Budget.API.Data;
+using Budget.API.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using NLog;
@@ -58,7 +59,7 @@ namespace Budget.API.Core
 			builder.WebHost.UseConfiguration(configuration);
 
 			builder.Services.AddDbContext<BudgetDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
-			builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+			builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 				.AddEntityFrameworkStores<BudgetDbContext>()
 				.AddDefaultTokenProviders();
 

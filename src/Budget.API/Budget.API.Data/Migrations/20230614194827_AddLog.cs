@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-#nullable disable
+using System;
 
 namespace Budget.API.Data.Migrations
 {
-    public partial class AddLog : Migration
-    {
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+	public partial class AddLog : Migration
+	{
+		protected override void Up(MigrationBuilder migrationBuilder)
+		{
 			migrationBuilder.CreateTable(
 				name: "BudgetLog",
 				columns: table => new
@@ -22,10 +21,10 @@ namespace Budget.API.Data.Migrations
 
 		}
 
-        protected override void Down(MigrationBuilder migrationBuilder)
+		protected override void Down(MigrationBuilder migrationBuilder)
 		{
 			migrationBuilder.DropTable(
 				name: "BudgetLog");
 		}
-    }
+	}
 }
