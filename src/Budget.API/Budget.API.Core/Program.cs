@@ -1,3 +1,4 @@
+using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using Budget.API.Core.Extensions;
 using Budget.API.Core.Helpers;
@@ -12,6 +13,7 @@ namespace Budget.API.Core
 {
 	public class Program
 	{
+		private const string CORS_POLICY = "DefaultCorsPolicy";
 		public static int Main(string[] args)
 		{
 			var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
@@ -26,6 +28,8 @@ namespace Budget.API.Core
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
+
+			app.UseCors(CORS_POLICY);
 
 			app.UseHttpsRedirection();
 
@@ -70,6 +74,14 @@ namespace Budget.API.Core
 			builder.Services.ConfigureAuthentication(configuration);
 
 			builder.Services.AddAutoMapper(typeof(MappingProfile));
+			builder.Services.AddCors(options =>
+			{
+				options.AddPolicy(CORS_POLICY,
+					builder => builder
+					.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader());
+			});
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwagger();

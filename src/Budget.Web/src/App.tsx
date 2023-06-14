@@ -2,8 +2,17 @@ import React from 'react';
 import logo from './logo.svg';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import { useAppSelector } from './app/hooks';
+import { selectIsAuthorized } from './features/auth/authSlice';
+import { Auth } from './features/auth/Auth';
 
-function App() {
+const App = () => {
+  const authorized: boolean = useAppSelector(selectIsAuthorized);
+
+  if (!authorized) {
+    return <Auth />
+  }
+
   return (
     <div className="App">
       <header className="App-header">
