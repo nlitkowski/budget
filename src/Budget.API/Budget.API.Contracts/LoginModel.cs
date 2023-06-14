@@ -2,7 +2,7 @@
 
 namespace Budget.API.Contracts
 {
-	public class LoginModel
+	public record LoginModel
 	{
 		[Required]
 		public string Username { get; set; }

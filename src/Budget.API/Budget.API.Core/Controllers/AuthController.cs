@@ -1,4 +1,5 @@
 ﻿using Budget.API.Contracts;
+using Budget.API.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -12,11 +13,11 @@ namespace Budget.API.Core.Controllers
 	[ApiController]
 	public class AuthController : ControllerBase
 	{
-		private readonly UserManager<IdentityUser> _userManager;
+		private readonly UserManager<ApplicationUser> _userManager;
 		private readonly IConfiguration _configuration;
 
 		public AuthController(
-			UserManager<IdentityUser> userManager,
+			UserManager<ApplicationUser> userManager,
 			IConfiguration configuration)
 		{
 			_userManager = userManager;
@@ -60,7 +61,7 @@ namespace Budget.API.Core.Controllers
 			if (existingUser != null)
 				return StatusCode(StatusCodes.Status500InternalServerError, "User already exists!");
 
-			IdentityUser user = new()
+			ApplicationUser user = new()
 			{
 				Email = model.Email,
 				SecurityStamp = Guid.NewGuid().ToString(),

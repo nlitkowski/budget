@@ -1,5 +1,6 @@
 using Autofac.Extensions.DependencyInjection;
 using Budget.API.Core.Extensions;
+using Budget.API.Core.Helpers;
 using Budget.API.Data;
 using Budget.API.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +28,10 @@ namespace Budget.API.Core
 			}
 
 			app.UseHttpsRedirection();
-			
+
+			app.UseAuthentication();
+			app.UseAuthorization();
+
 			app.MapControllers();
 
 			try
@@ -65,6 +69,7 @@ namespace Budget.API.Core
 
 			builder.Services.ConfigureAuthentication(configuration);
 
+			builder.Services.AddAutoMapper(typeof(MappingProfile));
 			builder.Services.AddControllers();
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwagger();
